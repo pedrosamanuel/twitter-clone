@@ -1,4 +1,4 @@
-# Proyecto API con TypeScript, Express, Node.js, Sequelize y PostgreSQL
+# Twitter clone
 
 Este proyecto es una API REST construida con TypeScript, Express y Node.js que utiliza Sequelize como ORM para manejar una base de datos PostgreSQL.
 

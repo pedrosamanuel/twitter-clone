@@ -1,0 +1,18 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.Like = exports.Post = exports.User = void 0;
+const User_1 = require("../models/User");
+const Post_1 = require("../models/Post");
+const Like_1 = require("../models/Like");
+User_1.User.hasMany(Post_1.Post, { foreignKey: 'userId' });
+Post_1.Post.belongsTo(User_1.User, { foreignKey: 'userId' });
+Post_1.Post.hasMany(Like_1.Like, { foreignKey: 'postId' });
+Like_1.Like.belongsTo(Post_1.Post, { foreignKey: 'postId' });
+User_1.User.belongsToMany(Post_1.Post, { through: Like_1.Like, foreignKey: 'userId', as: 'LikedPosts' });
+Post_1.Post.belongsToMany(User_1.User, { through: Like_1.Like, foreignKey: 'postId', as: 'Likers' });
+var User_2 = require("./User");
+Object.defineProperty(exports, "User", { enumerable: true, get: function () { return User_2.User; } });
+var Post_2 = require("./Post");
+Object.defineProperty(exports, "Post", { enumerable: true, get: function () { return Post_2.Post; } });
+var Like_2 = require("./Like");
+Object.defineProperty(exports, "Like", { enumerable: true, get: function () { return Like_2.Like; } });

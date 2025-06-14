@@ -1,11 +1,12 @@
-import { Like, Post } from '../data/models';
+import { Post } from '../data/models/Post';
+import { Like } from '../data/models/Like';
 import { postDto } from '../data/dtos/post.dto';
 
 
 
 class PostService {
   async getAllPosts(): Promise<postDto[]> {
-    const posts = await Post.findAll({
+    const posts : Post[] = await Post.findAll({
     include: [
       {
         model: Like

@@ -1,7 +1,6 @@
 import express, { Request, Response, NextFunction } from 'express';
 import PostService from '../services/post.service';
 import { authenticateJWT, AuthRequest } from '../middlewares/auth.middleware';
-import { Post } from '../data/models';
 import authorizePostOwner from '../middlewares/post.owner.middleware';
 
 class PostRoute {

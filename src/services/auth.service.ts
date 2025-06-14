@@ -1,6 +1,6 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import { User } from '../data/models/User';
+import { User } from './../data/models/User';
 
 export class AuthService {
   static async register(username: string, password: string) : Promise<User> {

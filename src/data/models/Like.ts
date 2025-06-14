@@ -1,38 +1,36 @@
-import { DataTypes, Model } from 'sequelize';
-import sequelize from '../../config/database';
+import {
+  Table,
+  Column,
+  Model,
+  DataType,
+  PrimaryKey,
+  AutoIncrement,
+  ForeignKey,
+  BelongsTo,
+} from 'sequelize-typescript';
+import { CreationOptional } from 'sequelize';
+import { User } from './User';
+import { Post } from './Post';
 
+@Table({ tableName: 'likes', timestamps: true })
 export class Like extends Model {
-  declare id: number;
-  declare userId: number;
-  declare postId: number;
+  @PrimaryKey
+  @AutoIncrement
+  @Column(DataType.INTEGER)
+  id!: CreationOptional<number>;
+
+  @ForeignKey(() => User)
+  @Column(DataType.INTEGER)
+  userId!: number;
+
+  @ForeignKey(() => Post)
+  @Column(DataType.INTEGER)
+  postId!: number;
+
+  @BelongsTo(() => User)
+  user!: User;
+
+  @BelongsTo(() => Post)
+  post!: Post;
 }
 
-Like.init(
-  {
-    id: {
-      type: DataTypes.INTEGER,
-      autoIncrement: true,
-      primaryKey: true,
-    },
-    userId: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-    },
-    postId: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-    },
-  },
-  {
-    sequelize,
-    modelName: 'Like',
-    tableName: 'likes',
-    timestamps: true,
-    indexes: [
-      {
-        unique: true,
-        fields: ['userId', 'postId'], // para evitar likes duplicados
-      },
-    ],
-  }
-);

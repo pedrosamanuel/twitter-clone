@@ -1,33 +1,39 @@
-import { DataTypes, Model } from 'sequelize';
-import sequelize from '../../config/database';
+import {
+  Table,
+  Column,
+  Model,
+  DataType,
+  PrimaryKey,
+  AutoIncrement,
+  HasMany,
+} from 'sequelize-typescript';
+import { CreationOptional } from 'sequelize';
+import { Post } from './Post';
+import { Like } from './Like';
 
-export class User extends Model {
-  declare id: number;
-  declare username: string;
-  declare password: string;
+@Table({ tableName: 'users', timestamps: false })
+export class User extends Model{
+  @PrimaryKey
+  @AutoIncrement
+  @Column(DataType.INTEGER)
+  id!: CreationOptional<number>;
+
+  @Column({
+    type: DataType.STRING(50),
+    allowNull: false,
+    unique: true,
+  })
+  username!: string;
+
+  @Column({
+    type: DataType.STRING,
+    allowNull: false,
+  })
+  password!: string;
+
+  @HasMany(() => Post)
+  posts!: Post[];
+
+  @HasMany(() => Like)
+  likes!: Like[];
 }
-
-User.init(
-  {
-    id: {
-      type: DataTypes.INTEGER,
-      autoIncrement: true,
-      primaryKey: true,
-    },
-    username: {
-      type: DataTypes.STRING(50),
-      allowNull: false,
-      unique: true,
-    },
-    password: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-  },
-  {
-    sequelize,
-    modelName: 'User',
-    tableName: 'users',
-    timestamps: false,
-  }
-);

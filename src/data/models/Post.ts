@@ -1,33 +1,38 @@
-import { DataTypes, Model } from 'sequelize';
-import sequelize from '../../config/database';
+import {
+  Table,
+  Column,
+  Model,
+  DataType,
+  PrimaryKey,
+  AutoIncrement,
+  ForeignKey,
+  BelongsTo,
+  HasMany,
+} from 'sequelize-typescript';
+import { CreationOptional } from 'sequelize';
+import { User } from './User';
+import { Like } from './Like';
 
-
+@Table({ tableName: 'posts', timestamps: true })
 export class Post extends Model {
-  declare id: number;
-  declare content: string;
-  declare userId: number;
-}
+  @PrimaryKey
+  @AutoIncrement
+  @Column(DataType.INTEGER)
+  id!: CreationOptional<number>;
 
-Post.init(
-  {
-    id: {
-      type: DataTypes.INTEGER,
-      autoIncrement: true,
-      primaryKey: true,
-    },
-    content: {
-      type: DataTypes.TEXT,
-      allowNull: false,
-    },
-    userId: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-    },
-  },
-  {
-    sequelize,
-    modelName: 'Post',
-    tableName: 'posts',
-    timestamps: true,
-  }
-);
+  @Column({
+    type: DataType.TEXT,
+    allowNull: false,
+  })
+  content!: string;
+
+  @ForeignKey(() => User)
+  @Column(DataType.INTEGER)
+  userId!: number;
+
+  @BelongsTo(() => User)
+  user!: User;
+
+  @HasMany(() => Like)
+  likes!: Like[];
+}

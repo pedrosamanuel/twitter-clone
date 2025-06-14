@@ -1,5 +1,8 @@
 import dotenv from 'dotenv';
-import { Sequelize } from 'sequelize';
+import { Sequelize } from 'sequelize-typescript'; 
+import { User } from '../data/models/User';
+import { Post } from '../data/models/Post';
+import { Like } from '../data/models/Like';
 
 dotenv.config();
 
@@ -13,21 +16,21 @@ if (process.env.NODE_ENV === 'production') {
     dialectOptions: {
       ssl: {
         require: true,
-        rejectUnauthorized: false, // necesario para Render
+        rejectUnauthorized: false,
       },
     },
+    models: [User, Post, Like], 
   });
 } else {
-  sequelize = new Sequelize(
-    process.env.DB_NAME!,
-    process.env.DB_USER!,
-    process.env.DB_PASS!,
-    {
-      host: process.env.DB_HOST,
-      dialect: 'postgres',
-      logging: false,
-    }
-  );
+  sequelize = new Sequelize({
+    database: process.env.DB_NAME!,
+    username: process.env.DB_USER!,
+    password: process.env.DB_PASS!,
+    host: process.env.DB_HOST!,
+    dialect: 'postgres',
+    logging: false,
+    models: [User, Post, Like],
+  });
 }
 
 export default sequelize;
